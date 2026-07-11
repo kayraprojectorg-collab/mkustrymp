@@ -2,12 +2,36 @@
 {% if page.storymap contains '.csv' %}<script src="{{ '/assets/lib/papaparse.min.js' | relative_url }}"></script>{% endif %}
 <script>
 // function to create storymap
-function initStoryMap(storymap_data) { 
+function initStoryMap(storymap_data) {
     var storymap_options = {};
+    // install the brand watcher before the map is built, so it works even
+    // if the library throws while loading (e.g. blocked tile requests)
+    replaceKnightLabBrand();
     var storymap = new KLStoryMap.StoryMap('storymap', storymap_data, storymap_options);
     window.onresize = function(event) {
         storymap.updateDisplay(); // this isn't automatic
     }
+}
+
+// replace the Knight Lab "StoryMapJS" attribution link (set by
+// map.attributionControl.setPrefix inside storymap-min.js) with our own
+// project name; Leaflet rebuilds the attribution HTML on every layer
+// change, so watch the container and re-apply whenever it reappears
+function replaceKnightLabBrand() {
+    var container = document.getElementById('storymap');
+    if (!container) return;
+    function swap() {
+        var brand = container.querySelector('.vco-knightlab-brand');
+        if (brand) {
+            var own = document.createElement('a');
+            own.className = 'maku-brand';
+            own.href = '{{ "/" | relative_url }}';
+            own.textContent = 'راهنمای گردشگری ماکو';
+            brand.replaceWith(own);
+        }
+    }
+    new MutationObserver(swap).observe(container, { childList: true, subtree: true });
+    swap();
 }
 // add storymap data source
 {% if page.storymap contains '.json' %}

@@ -1,0 +1,192 @@
+/* ==========================================================================
+   _storymap-theme.scss — تم آبی-سفید StoryMapJS برای وب‌سایت گردشگری
+   رنگ اصلی:  #1a5276  (آبی تیره اقیانوسی)
+   رنگ تاکید: #2e86c1  (آبی روشن)
+   این فایل بعد از storymap.css بارگذاری می‌شود و رنگ پیش‌فرض نارنجی
+   کتابخانه (#c34528) و اندازه فونت‌ها را بازنویسی می‌کند.
+   ========================================================================== */
+
+// ----- متغیرهای تم -----
+$storymap-primary: #1a5276;      // رنگ اصلی: تیترها، دکمه‌ها، مارکر فعال
+$storymap-accent: #2e86c1;       // رنگ تاکید: لینک‌ها، هاور، حالت فعال
+$storymap-accent-soft: #eaf2f8;  // پس‌زمینه آبی بسیار روشن
+$storymap-text: #21313c;         // رنگ متن اصلی (خواناتر از #333 روی سفید)
+$storymap-text-muted: #5d6d7e;   // متن کم‌اهمیت (کپشن، منبع)
+$storymap-marker-idle: #85a3b8;  // مارکرهای غیرفعال نقشه (آبی خاکستری)
+
+// ----- اندازه فونت‌ها (برای خوانایی بهتر متن فارسی) -----
+$storymap-fs-headline: 1.8rem;     // تیتر اسلاید
+$storymap-fs-body: 1.0625rem;      // متن توضیحات (۱۷px)
+$storymap-fs-caption: 0.875rem;    // کپشن تصویر
+$storymap-fs-credit: 0.75rem;      // منبع تصویر
+$storymap-fs-slidenav: 0.8125rem;  // پیش‌نمایش اسلاید قبلی/بعدی
+$storymap-fs-button: 1.125rem;     // دکمه «شروع گشت‌وگذار»
+$storymap-lh-body: 2;              // فاصله سطرها؛ متن فارسی به ارتفاع سطر بیشتری نیاز دارد
+
+.vco-storymap {
+
+  // --------------------------------------------------------------
+  // رنگ متن و لینک‌ها
+  // --------------------------------------------------------------
+  color: $storymap-text;
+
+  a {
+    color: $storymap-accent;
+  }
+  p a:hover,
+  p a:focus,
+  a:hover {
+    color: $storymap-primary;
+  }
+
+  // --------------------------------------------------------------
+  // اسلایدها: تیتر، متن، پس‌زمینه
+  // --------------------------------------------------------------
+  .vco-slide {
+    background-color: #fff;
+  }
+  .vco-slide .vco-slide-background {
+    background-color: #fff;
+  }
+
+  // سلکتور h2 برای غلبه بر ".vco-text h2.vco-headline { color: #000 }" کتابخانه لازم است
+  .vco-headline,
+  .vco-headline-title,
+  .vco-text h2.vco-headline,
+  .vco-text h2.vco-headline-title {
+    color: $storymap-primary;
+    font-size: $storymap-fs-headline;
+    line-height: 1.5;
+    font-weight: 700;
+  }
+
+  // تیتر اسلاید معرفی (overview) درشت‌تر از اسلایدهای عادی می‌ماند
+  .vco-text h2.vco-headline-title {
+    font-size: $storymap-fs-headline * 1.4;
+  }
+
+  .vco-text-content,
+  .vco-text-content p {
+    color: $storymap-text;
+    font-size: $storymap-fs-body;
+    line-height: $storymap-lh-body;
+  }
+
+  // برچسب‌های پررنگ داخل توضیحات (آدرس، تور، دسته)
+  .vco-text-content b,
+  .vco-text-content strong {
+    color: $storymap-primary;
+  }
+
+  // کپشن و منبع تصویر
+  .vco-caption {
+    color: $storymap-text-muted;
+    font-size: $storymap-fs-caption;
+    line-height: 1.8;
+  }
+  .vco-credit {
+    color: lighten($storymap-text-muted, 15%);
+    font-size: $storymap-fs-credit;
+    line-height: 1.6;
+  }
+
+  // --------------------------------------------------------------
+  // اسلاید معرفی و دکمه «شروع»
+  // --------------------------------------------------------------
+  .vco-slide .vco-slide-calltoaction .vco-slide-calltoaction-button-text {
+    background-color: $storymap-primary;
+    color: #fff;
+    font-size: $storymap-fs-button;
+    padding: 12px 28px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+  .vco-slide .vco-slide-calltoaction:hover .vco-slide-calltoaction-button-text {
+    background-color: $storymap-accent;
+    color: #fff;
+  }
+
+  // --------------------------------------------------------------
+  // منوی بالای نقشه (نمای کلی / بازگشت به شروع)
+  // --------------------------------------------------------------
+  .vco-menubar {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-color: $storymap-accent-soft;
+  }
+  .vco-menubar-button {
+    color: $storymap-primary;
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+  .vco-menubar-button:hover {
+    background: $storymap-accent;
+    color: #fff;
+  }
+  &.vco-mobile .vco-menubar-button:active {
+    background: $storymap-accent;
+    color: #fff;
+  }
+
+  // --------------------------------------------------------------
+  // مارکرهای نقشه
+  // --------------------------------------------------------------
+  .vco-map .vco-mapmarker {
+    color: $storymap-marker-idle;
+  }
+  .vco-map .vco-mapmarker-active {
+    color: $storymap-primary;
+  }
+  .vco-map .vco-mapmarker-image-icon-active {
+    border-color: $storymap-primary;
+  }
+
+  // --------------------------------------------------------------
+  // ناوبری بین اسلایدها (قبلی/بعدی)
+  // --------------------------------------------------------------
+  .vco-slidenav-next .vco-slidenav-title,
+  .vco-slidenav-previous .vco-slidenav-title {
+    font-size: $storymap-fs-slidenav;
+    line-height: 1.6;
+  }
+  .vco-slidenav-next .vco-slidenav-description,
+  .vco-slidenav-previous .vco-slidenav-description {
+    font-size: $storymap-fs-slidenav * 0.9;
+    line-height: 1.5;
+  }
+  .vco-slidenav-next:hover .vco-slidenav-title,
+  .vco-slidenav-previous:hover .vco-slidenav-title {
+    color: $storymap-accent;
+  }
+
+  // --------------------------------------------------------------
+  // کنترل‌های نقشه Leaflet (زوم و مینی‌مپ)
+  // --------------------------------------------------------------
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out {
+    color: $storymap-primary !important;
+  }
+  .leaflet-control-zoom-in:hover,
+  .leaflet-control-zoom-out:hover {
+    background-color: $storymap-accent-soft !important;
+  }
+  .leaflet-control-minimap {
+    border: 2px solid $storymap-accent-soft;
+  }
+
+  // --------------------------------------------------------------
+  // برند سفارشی جایگزین Knight Lab (به storymap-js.html نگاه کنید)
+  // --------------------------------------------------------------
+  .maku-brand,
+  a.maku-brand {
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    color: $storymap-primary;
+    text-shadow: 0 0 1px #fff, 0 0 1px #fff, 0 0 5px #fff;
+    text-decoration: none;
+  }
+  a.maku-brand:hover {
+    color: $storymap-accent;
+    text-decoration: none;
+  }
+}

@@ -19,3 +19,9 @@ $container-narrow: 750px;
 
 /* bring in custom styles */
 @import "custom";
+
+/* blue-white tourism theme for StoryMapJS */
+@import "storymap-theme";
+
+/* tour navigation menu above the storymap */
+@import "tour-nav";

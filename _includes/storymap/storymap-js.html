@@ -1,12 +1,78 @@
 <script src="{{ '/assets/lib/storymapjs/js/storymap-min.js' | relative_url }}"></script>
 {% if page.storymap contains '.csv' %}<script src="{{ '/assets/lib/papaparse.min.js' | relative_url }}"></script>{% endif %}
 <script>
+// available base maps for the map-type switcher
+var MAKU_MAP_TYPES = {
+    "satellite": {
+        "label": "ماهواره‌ای",
+        "map_type": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "attribution": "تصاویر ماهواره‌ای © <a href='https://www.esri.com' target='_blank'>ازری</a>"
+    },
+    "street": {
+        "label": "خیابانی",
+        "map_type": "osm:standard",
+        "attribution": ""
+    }
+};
+
+function getMapChoice() {
+    try {
+        var t = localStorage.getItem('maku-map-type');
+        return MAKU_MAP_TYPES[t] ? t : 'satellite';
+    } catch (e) { return 'satellite'; }
+}
+
+function applyMapChoice(storymap_data) {
+    var choice = MAKU_MAP_TYPES[getMapChoice()];
+    storymap_data.storymap.map_type = choice.map_type;
+    storymap_data.storymap.attribution = choice.attribution;
+}
+
+// small RTL button bar above the map to switch between base maps;
+// switching re-initializes the storymap with the chosen tiles
+function addMapTypeToggle() {
+    var container = document.getElementById('storymap');
+    if (!container || document.getElementById('map-type-toggle')) return;
+    var bar = document.createElement('div');
+    bar.id = 'map-type-toggle';
+    bar.setAttribute('dir', 'rtl');
+    var current = getMapChoice();
+    var html = '<span class="map-type-label">نوع نقشه:</span>';
+    Object.keys(MAKU_MAP_TYPES).forEach(function(key) {
+        html += '<button type="button" data-type="' + key + '"' +
+            (key === current ? ' class="active"' : '') + '>' +
+            MAKU_MAP_TYPES[key].label + '</button>';
+    });
+    bar.innerHTML = html;
+    container.parentNode.insertBefore(bar, container);
+    bar.addEventListener('click', function(ev) {
+        var btn = ev.target.closest('button');
+        if (!btn) return;
+        var t = btn.getAttribute('data-type');
+        if (t === getMapChoice()) return;
+        try { localStorage.setItem('maku-map-type', t); } catch (e) {}
+        bar.querySelectorAll('button').forEach(function(b) {
+            b.classList.toggle('active', b === btn);
+        });
+        var data = window._maku_storymap_data;
+        if (!data) return;
+        applyMapChoice(data);
+        container.innerHTML = '';
+        initStoryMap(data);
+    });
+}
+
 // function to create storymap
 function initStoryMap(storymap_data) {
     var storymap_options = {};
     // install the localizer before the map is built, so it works even
     // if the library throws while loading (e.g. blocked tile requests)
     localizeStoryMapUI();
+    if (typeof storymap_data === 'object') {
+        applyMapChoice(storymap_data);
+        window._maku_storymap_data = storymap_data;
+        addMapTypeToggle();
+    }
     var storymap = new KLStoryMap.StoryMap('storymap', storymap_data, storymap_options);
     window.onresize = function(event) {
         storymap.updateDisplay(); // this isn't automatic
@@ -65,7 +131,10 @@ function localizeStoryMapUI() {
         }
         translateTextNodes(container);
     }
-    new MutationObserver(localize).observe(container, { childList: true, subtree: true });
+    if (!container._makuLocalized) {
+        container._makuLocalized = true;
+        new MutationObserver(localize).observe(container, { childList: true, subtree: true });
+    }
     localize();
 }
 // add storymap data source

@@ -190,3 +190,43 @@ $storymap-lh-body: 2;              // فاصله سطرها؛ متن فارسی 
     text-decoration: none;
   }
 }
+
+// --------------------------------------------------------------
+// سوئیچ انتخاب نوع نقشه (ماهواره‌ای / خیابانی) بالای نقشه
+// --------------------------------------------------------------
+#map-type-toggle {
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-family: "Vazirmatn", "IRANSans", "Vazir", Tahoma, Arial, sans-serif;
+
+  .map-type-label {
+    color: $storymap-text-muted;
+    font-size: 0.9rem;
+  }
+
+  button {
+    border: 1px solid $storymap-accent;
+    background: #fff;
+    color: $storymap-primary;
+    padding: 0.3rem 1rem;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background: $storymap-accent-soft;
+    }
+
+    &.active {
+      background: $storymap-primary;
+      border-color: $storymap-primary;
+      color: #fff;
+      font-weight: 700;
+    }
+  }
+}

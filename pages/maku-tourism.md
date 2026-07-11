@@ -1,7 +1,7 @@
 ---
 title: گردشگری ماکو
 nav: گردشگری ماکو
-nav_order: 2
+nav_order: 1
 layout: storymap-page
 storymap: maku-tourism.csv
 ---

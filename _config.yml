@@ -9,10 +9,10 @@
 #######
 # SITE SETTINGS
 #
-title: storymapjs-template
-description: "a basic Jekyll template for self-hosted StoryMapJS"
-year: 2021
-author: evanwill 
+title: راهنمای گردشگری ماکو
+description: "نقشه داستانی جاذبه‌های گردشگری منطقه آزاد ماکو"
+year: ۱۴۰۵
+author:
 # add search box to navbar, true/false
 search: false
 # add representative image for social media sharing

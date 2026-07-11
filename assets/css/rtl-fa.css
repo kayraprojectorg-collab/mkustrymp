@@ -183,9 +183,10 @@ blockquote {
   margin-left: 0;
   margin-right: 10px;
 }
-/* متن attribution نقشه چپ‌چین و LTR بماند (نام‌ها و لینک‌های لاتین) */
+/* متن attribution نقشه (پس از ترجمه فارسی) راست‌چین است */
 .vco-storymap .leaflet-control-attribution {
-  direction: ltr;
+  direction: rtl;
+  unicode-bidi: plaintext;
 }
 
 /* --------------------------------------------------------------------------

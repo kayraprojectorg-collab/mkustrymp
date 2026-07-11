@@ -4,23 +4,57 @@
 // function to create storymap
 function initStoryMap(storymap_data) {
     var storymap_options = {};
-    // install the brand watcher before the map is built, so it works even
+    // install the localizer before the map is built, so it works even
     // if the library throws while loading (e.g. blocked tile requests)
-    replaceKnightLabBrand();
+    localizeStoryMapUI();
     var storymap = new KLStoryMap.StoryMap('storymap', storymap_data, storymap_options);
     window.onresize = function(event) {
         storymap.updateDisplay(); // this isn't automatic
     }
 }
 
-// replace the Knight Lab "StoryMapJS" attribution link (set by
+// Persian translations for the UI strings hardcoded inside storymap-min.js
+// (the library has no built-in "fa" language file); ordered longest-first
+// so e.g. "Map Overview" is matched before "Overview"
+var STORYMAP_FA_STRINGS = [
+    ['From Wikipedia, the free encyclopedia', 'برگرفته از ویکی‌پدیا، دانشنامه آزاد'],
+    ['and contributors, under an', 'و مشارکت‌کنندگان، تحت'],
+    ['Swipe to Navigate', 'برای جابه‌جایی، صفحه را بکشید'],
+    ['Back To Beginning', 'بازگشت به آغاز'],
+    ['Map Overview', 'نمای کلی نقشه'],
+    ['OpenStreetMap', 'اوپن‌استریت‌مپ'],
+    ['open license', 'مجوز آزاد'],
+    ['Hide Map', 'پنهان کردن نقشه'],
+    ['Show Map', 'نمایش نقشه'],
+    ['Overview', 'نمای کلی'],
+    ['Loading', 'در حال بارگذاری'],
+    ['Leaflet', 'لیفلت'],
+    ['OK', 'باشه']
+];
+
+// replace the Knight Lab attribution link (set by
 // map.attributionControl.setPrefix inside storymap-min.js) with our own
-// project name; Leaflet rebuilds the attribution HTML on every layer
-// change, so watch the container and re-apply whenever it reappears
-function replaceKnightLabBrand() {
+// project name, and translate the library's English UI strings; Leaflet
+// rebuilds the attribution HTML on every layer change, so watch the
+// container and re-apply whenever English text reappears
+function localizeStoryMapUI() {
     var container = document.getElementById('storymap');
     if (!container) return;
-    function swap() {
+    function translateTextNodes(root) {
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        var node;
+        while ((node = walker.nextNode())) {
+            var text = node.nodeValue;
+            if (!/[A-Za-z]/.test(text)) continue;
+            STORYMAP_FA_STRINGS.forEach(function(pair) {
+                if (text.indexOf(pair[0]) !== -1) {
+                    text = text.split(pair[0]).join(pair[1]);
+                }
+            });
+            if (text !== node.nodeValue) node.nodeValue = text;
+        }
+    }
+    function localize() {
         var brand = container.querySelector('.vco-knightlab-brand');
         if (brand) {
             var own = document.createElement('a');
@@ -29,9 +63,10 @@ function replaceKnightLabBrand() {
             own.textContent = 'راهنمای گردشگری ماکو';
             brand.replaceWith(own);
         }
+        translateTextNodes(container);
     }
-    new MutationObserver(swap).observe(container, { childList: true, subtree: true });
-    swap();
+    new MutationObserver(localize).observe(container, { childList: true, subtree: true });
+    localize();
 }
 // add storymap data source
 {% if page.storymap contains '.json' %}
@@ -51,7 +86,7 @@ function csvStoryMap(results) {
             "map_as_image": false,
             "zoomify": false,
             "call_to_action": true,
-            "call_to_action_text": "Start Exploring",
+            "call_to_action_text": "شروع گشت‌وگذار",
             "slides": [ ]
         }
     };
@@ -122,6 +157,6 @@ Papa.parse("{% if page.storymap contains '/' %}{{ page.storymap | relative_url }
 });
 {% else %}
 // try to detect error with data filename
-document.getElementById('storymap').innerHTML = "There is problem with the storymap data configuration on this page. Please ensure you have included the data's filename including the extension .json or .csv";
+document.getElementById('storymap').innerHTML = "در پیکربندی داده‌های نقشه داستانی این صفحه مشکلی وجود دارد. لطفاً مطمئن شوید نام فایل داده را همراه با پسوند .json یا .csv وارد کرده‌اید.";
 {% endif %}
 </script>

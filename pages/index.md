@@ -1,7 +1,9 @@
 ---
-title: storymapjs-template Demo
-# use storymap-full layout
-layout: storymap-full
-# add storymap data
-storymap: demo-storymap.csv
+title: راهنمای گردشگری ماکو
+layout: storymap-page
+storymap: maku-tourism.csv
 ---
+
+{% include tour-nav.html %}
+
+نقشه داستانی جاذبه‌های گردشگری منطقه ماکو شامل تورهای طبیعی، تاریخی، تفریحی و اقامتی در ماکو، شوط، چالدران و پلدشت.

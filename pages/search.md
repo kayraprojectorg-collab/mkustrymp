@@ -1,6 +1,6 @@
 ---
-title: Site Search
+title: جستجو در سایت
 layout: search
 ---
 
-Search site content using Lunr.js.
+جستجو در محتوای سایت.

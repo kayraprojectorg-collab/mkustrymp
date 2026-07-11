@@ -1,0 +1,204 @@
+/* ==========================================================================
+   rtl-fa.css — راست‌چین‌سازی کامل سایت و StoryMapJS + فونت فارسی وزیرمتن
+   فونت‌ها به‌صورت محلی در assets/fonts میزبانی می‌شوند (بدون نیاز به CDN).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ۱) فونت وزیرمتن (Vazirmatn)
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --fa-font-stack: "Vazirmatn", "IRANSans", "Vazir", Tahoma, Arial, sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   ۲) راست‌چین‌سازی کل سایت (بدنه، نوار ناوبری، فوتر)
+   -------------------------------------------------------------------------- */
+html {
+  direction: rtl;
+}
+
+body {
+  font-family: var(--fa-font-stack);
+  text-align: right;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar, .dropdown-menu, .btn, .form-control,
+input, textarea, select, button {
+  font-family: var(--fa-font-stack);
+}
+
+/* نوار ناوبری بوت‌استرپ: جبران کلاس‌های margin که در حالت RTL برنمی‌گردند */
+.navbar-nav.ms-auto {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+.navbar-nav.me-auto {
+  margin-right: 0 !important;
+  margin-left: auto !important;
+}
+.dropdown-menu {
+  text-align: right;
+}
+.navbar-brand {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+/* لیست‌ها و نقل‌قول‌ها در متن صفحات */
+main ul, main ol {
+  padding-right: 2rem;
+  padding-left: 0;
+}
+blockquote {
+  border-right: 4px solid #dee2e6;
+  border-left: 0;
+  padding-right: 1rem;
+  padding-left: 0;
+}
+
+/* --------------------------------------------------------------------------
+   ۳) فونت فارسی برای تمام المان‌های StoryMapJS
+   (storymap.css فونت Helvetica را روی تک‌تک المان‌ها ست می‌کند،
+    بنابراین override با !important لازم است)
+   -------------------------------------------------------------------------- */
+.vco-storymap,
+.vco-storymap *:not([class*="vco-icon-"]):not(.vco-slidenav-icon):not(.vco-mapmarker):not(.vco-mapmarker-active):not(.leaflet-control-minimap-toggle-display):not(.leaflet-control-zoom-in):not(.leaflet-control-zoom-out) {
+  font-family: var(--fa-font-stack) !important;
+}
+
+/* آیکون‌های داخلی کتابخانه باید با فونت آیکون خودش بمانند */
+.vco-storymap [class*="vco-icon-"],
+.vco-storymap [class*="vco-icon-"]:before,
+.vco-storymap .vco-slidenav-icon,
+.vco-storymap .vco-slidenav-icon:before,
+.vco-storymap .vco-mapmarker,
+.vco-storymap .vco-mapmarker-active,
+.vco-storymap .leaflet-control-minimap-toggle-display:after {
+  font-family: "vco-icons" !important;
+}
+
+/* --------------------------------------------------------------------------
+   ۴) راست‌چین‌سازی اسلایدها و پنل اطلاعات StoryMapJS
+   -------------------------------------------------------------------------- */
+/* متن اصلی هر اسلاید: تیتر، توضیحات، تاریخ */
+.vco-storymap .vco-text,
+.vco-storymap .vco-text-content,
+.vco-storymap .vco-text-content-container,
+.vco-storymap .vco-headline,
+.vco-storymap .vco-headline-title,
+.vco-storymap .vco-headline-date,
+.vco-storymap .vco-text-date,
+.vco-storymap .vco-note,
+.vco-storymap .vco-message,
+.vco-storymap .vco-message-content,
+.vco-storymap .vco-feedback {
+  direction: rtl;
+  text-align: right;
+}
+
+/* رسانه‌ها: کپشن و منبع تصویر، نقل‌قول و ویکی‌پدیا */
+.vco-storymap .vco-caption,
+.vco-storymap .vco-credit,
+.vco-storymap .vco-media-blockquote,
+.vco-storymap .vco-media-wikipedia {
+  direction: rtl;
+  text-align: right;
+}
+
+/* اسلاید معرفی (overview) و دکمه شروع: وسط‌چین می‌ماند اما جهت متن RTL */
+.vco-storymap .vco-slide-calltoaction,
+.vco-storymap .vco-slide-calltoaction-button-text {
+  direction: rtl;
+}
+
+/* --------------------------------------------------------------------------
+   ۵) نوار ناوبری بین اسلایدها (فلش‌های قبلی/بعدی)
+   عنوان و توضیح پیش‌نمایش اسلاید کناری راست‌چین می‌شود؛
+   جای فلش‌ها ثابت می‌ماند تا با رفتار جاوااسکریپت کتابخانه تداخل نکند.
+   -------------------------------------------------------------------------- */
+.vco-storymap .vco-slidenav-next .vco-slidenav-title,
+.vco-storymap .vco-slidenav-next .vco-slidenav-description,
+.vco-storymap .vco-slidenav-previous .vco-slidenav-title,
+.vco-storymap .vco-slidenav-previous .vco-slidenav-description {
+  direction: rtl;
+}
+.vco-storymap .vco-slidenav-previous .vco-slidenav-title,
+.vco-storymap .vco-slidenav-previous .vco-slidenav-description {
+  text-align: right;
+}
+.vco-storymap .vco-slidenav-next .vco-slidenav-title,
+.vco-storymap .vco-slidenav-next .vco-slidenav-description {
+  text-align: left;
+}
+
+/* --------------------------------------------------------------------------
+   ۶) منوی بالای نقشه (دکمه‌های بازگشت به شروع و ...)
+   از گوشه چپ به گوشه راست نقشه منتقل می‌شود.
+   -------------------------------------------------------------------------- */
+.vco-storymap .vco-menubar {
+  left: auto !important;
+  right: 0 !important;
+  text-align: right;
+  border-right: 0;
+  border-left: 1px solid #e6e6e6;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 0;
+}
+.vco-storymap .vco-menubar .vco-menubar-button {
+  direction: rtl;
+}
+
+/* --------------------------------------------------------------------------
+   ۷) کنترل‌های نقشه (Leaflet)
+   دکمه زوم به سمت راست نقشه منتقل می‌شود تا با منوی راست‌چین هماهنگ باشد.
+   -------------------------------------------------------------------------- */
+.vco-storymap .vco-map .leaflet-top.leaflet-left {
+  left: auto;
+  right: 0;
+}
+.vco-storymap .vco-map .leaflet-top.leaflet-left .leaflet-control {
+  margin-left: 0;
+  margin-right: 10px;
+}
+/* متن attribution نقشه چپ‌چین و LTR بماند (نام‌ها و لینک‌های لاتین) */
+.vco-storymap .leaflet-control-attribution {
+  direction: ltr;
+}
+
+/* --------------------------------------------------------------------------
+   ۸) موارد تکمیلی
+   -------------------------------------------------------------------------- */
+/* اعداد و تاریخ‌های لاتین داخل متن فارسی درست نمایش داده شوند */
+.vco-storymap .vco-text-content,
+.vco-storymap .vco-caption,
+.vco-storymap .vco-credit {
+  unicode-bidi: plaintext;
+}
+
+/* لینک داخل متن اسلاید */
+.vco-storymap .vco-text-content a {
+  unicode-bidi: embed;
+}

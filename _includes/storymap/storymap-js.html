@@ -82,7 +82,10 @@ function csvStoryMap(results) {
     var storymap_data = {
         "storymap": {
             "language": "en",
-            "map_type": "osm:standard",
+            // satellite imagery (Esri World Imagery) instead of the default OSM street map
+            "map_type": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+            "map_subdomains": "abc",
+            "attribution": "تصاویر ماهواره‌ای © <a href='https://www.esri.com' target='_blank'>ازری</a>",
             "map_as_image": false,
             "zoomify": false,
             "call_to_action": true,
